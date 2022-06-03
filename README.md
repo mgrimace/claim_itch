@@ -27,8 +27,8 @@ Automate claiming itch.io games. The script scans sources like reddit megathread
 1. Edit sample_login.cfg and enter your information, then remove "sample_" from the filename. Alternatively, create a new login.cfg file using a basic text-editor and save it to the same folder as your script with the following information:
 
 ```
-"username"="replace_this_text_with_your_itch.io_username"
-"password"="replace_this_text_with_your_itch.io_password"
+username ="replace_this_text_with_your_itch.io_username"
+password ="replace_this_text_with_your_itch.io_password"
 ```
 
 ## Usage
