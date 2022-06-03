@@ -1,25 +1,35 @@
 # claim_itch
-Automate claiming itch.io games. The script scans sources like reddit megathreads for game URLs then claims them.
+Automate claiming itch.io games. The script scans sources like reddit megathreads for game URLs then claims them. Thank you to u/Iron-Row for creating original project
 
 ## Installation
-Windows instructions
+
+### Windows instructions
 
 1. Install [python](https://www.python.org/downloads/).
 2. Install [Firefox](https://www.mozilla.org/firefox/).
-3. [Download](https://github.com/Iron-Row/claim_itch/releases/latest/) the script (claim_itch.py) into a folder of your choice.
+3. Download the script (claim_itch.py) into a folder of your choice.
 4. Download [geckodriver](https://github.com/mozilla/geckodriver/releases) and put the .exe in the same folder as the script (or in your [PATH](https://www.howtogeek.com/118594/how-to-edit-your-system-path-for-easy-command-line-access/)).
 5. Open the folder. Click "File" then open Powershell (or Command Prompt). This is where we will execute commands and run the script.
 6. Install required packages by typing the command `python -m pip install beautifulsoup4 lxml requests selenium` and click enter to execute it.
 
-Mac instructions
+### Mac instructions
 
 1. Install [Firefox](https://www.mozilla.org/firefox/).
-2. [Download](https://github.com/mgrimace/claim_itch/releases) the script (claim_itch.py) into a folder of your choice.
+2. Download the script (claim_itch.py) into a folder of your choice.
 3. Open Terminal
 4. Install [Homebrew](https://brew.sh) if you haven't already done so `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)`
 5. Install python using Homebrew `brew install python`
 6. Install geckodriver using Homebrew `brew install geckodriver`
 7. Install required packages by typing the command `python3 -m pip install beautifulsoup4 lxml requests selenium` and click enter to execute it.
+
+### (Optional) Automate itch.io login
+
+1. Edit sample_login.cfg and enter your information, then remove "sample_" from the filename. Alternatively, create a new login.cfg file using a basic text-editor and save it to the same folder as your script with the following information:
+
+```
+"username"="replace_this_text_with_your_itch.io_username"
+"password"="replace_this_text_with_your_itch.io_password"
+```
 
 ## Usage
 
