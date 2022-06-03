@@ -320,7 +320,7 @@ def claim(url, driver):
 
     # removed game
     try:
-       driver.find_element(By.CSS_SELECTOR, 'div.not_found_game_page')
+        driver.find_element(By.CSS_SELECTOR, 'div.not_found_game_page')
         return 'removed'
     except NoSuchElementException:
         pass
