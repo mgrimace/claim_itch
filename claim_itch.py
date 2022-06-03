@@ -56,6 +56,7 @@ import configparser
 from time import sleep, time
 from bs4 import BeautifulSoup
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 
 
@@ -79,6 +80,8 @@ SOURCES = {
     #'https://itch.io/c/537762/already-claimed-will-be-on-sale-again',
     # 'https://old.reddit.com/r/FreeGameFindings/comments/i4ywei/itchio_mega_thread_7/',
     # 'https://old.reddit.com/r/FreeGameFindings/comments/ipp4xn/itchio_mega_thread_8/',
+    'https://old.reddit.com/r/FreeGameFindings/comments/lgi4z7/itchio_mega_thread_9/',
+    'https://old.reddit.com/r/FreeGameFindings/comments/p0ik3q/itchio_mega_thread_10/',
 }
 
 
@@ -317,14 +320,14 @@ def claim(url, driver):
 
     # removed game
     try:
-        driver.find_element_by_css_selector('div.not_found_game_page')
+       driver.find_element(By.CSS_SELECTOR, 'div.not_found_game_page')
         return 'removed'
     except NoSuchElementException:
         pass
 
     # already owned
     try:
-        if 'You own this' in driver.find_element_by_css_selector('div.purchase_banner_inner h2').get_attribute('textContent'):
+        if 'You own this' in driver.find_element(By.CSS_SELECTOR, 'div.purchase_banner_inner h2').get_attribute('textContent'):
             print(f' already claimed: {url}')
             return 'claimed'
     except NoSuchElementException:
@@ -332,18 +335,18 @@ def claim(url, driver):
 
     # check if claimable, download only, or a web game
     try:
-        buy = driver.find_element_by_css_selector('div.buy_row a.buy_btn')
+        buy = driver.find_element(By.CSS_SELECTOR, 'div.buy_row a.buy_btn')
     except NoSuchElementException:
         try:
-            buy = driver.find_element_by_css_selector('section.game_download a.buy_btn')
+            buy = driver.find_element(By.CSS_SELECTOR, 'section.game_download a.buy_btn')
         except NoSuchElementException:
             try:
-                driver.find_element_by_css_selector('div.uploads')
+                driver.find_element(By.CSS_SELECTOR, 'div.uploads')
                 print(f' download only: {url}')
                 return 'dl_only'
             except NoSuchElementException:
                 try:
-                    driver.find_element_by_css_selector('div.html_embed_widget')
+                    driver.find_element(By.CSS_SELECTOR, 'div.html_embed_widget')
                     print(f' web game: {url}')
                     return 'web'
                 except NoSuchElementException as nse_e:
@@ -351,7 +354,7 @@ def claim(url, driver):
 
     if 'Download Now' in buy.get_attribute('textContent'):
         try:
-            sale_rate = driver.find_element_by_css_selector('.sale_rate')
+            sale_rate = driver.find_element(By.CSS_SELECTOR, '.sale_rate')
         except NoSuchElementException as nse_e:
             print(f' always free: {url}')
             return 'always_free'
@@ -374,7 +377,7 @@ def claim(url, driver):
         driver.get(f'{url}/purchase')
 
         try:
-            no_thanks = driver.find_element_by_css_selector('a.direct_download_btn')
+            no_thanks = driver.find_element(By.CSS_SELECTOR, 'a.direct_download_btn')
         except NoSuchElementException as nse_e:
             raise ParsingError(url) from nse_e
 
@@ -385,7 +388,7 @@ def claim(url, driver):
             original_window = switch_to_new_window(driver, original_window)
 
             try:
-                claim_btn = driver.find_element_by_css_selector('div.claim_to_download_box form button')
+                claim_btn = driver.find_element(By.CSS_SELECTOR, 'div.claim_to_download_box form button')
             except NoSuchElementException as nse_e:
                 raise ParsingError(url) from nse_e
 
@@ -393,7 +396,7 @@ def claim(url, driver):
                 claim_btn.click()
 
                 try:
-                    message = driver.find_element_by_css_selector('div.game_download_page div.inner_column p')
+                    message = driver.find_element(By.CSS_SELECTOR, 'div.game_download_page div.inner_column p')
                 except NoSuchElementException as nse_e:
                     raise ParsingError(url) from nse_e
 
