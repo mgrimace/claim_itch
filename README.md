@@ -2,7 +2,7 @@
 Automate claiming itch.io games. The script scans sources like reddit megathreads for game URLs then claims them.
 
 ## Installation
-Windows instructions, you can adapt them for linux/mac as pointed out by /u/farmerbb:
+Windows instructions
 
 1. Install [python](https://www.python.org/downloads/).
 2. Install [Firefox](https://www.mozilla.org/firefox/).
@@ -11,11 +11,21 @@ Windows instructions, you can adapt them for linux/mac as pointed out by /u/farm
 5. Open the folder. Click "File" then open Powershell (or Command Prompt). This is where we will execute commands and run the script.
 6. Install required packages by typing the command `python -m pip install beautifulsoup4 lxml requests selenium` and click enter to execute it.
 
+Mac instructions
+
+1. Install [Firefox](https://www.mozilla.org/firefox/).
+2. [Download](https://github.com/mgrimace/claim_itch/releases) the script (claim_itch.py) into a folder of your choice.
+3. Open Terminal
+4. Install [Homebrew](https://brew.sh) if you haven't already done so `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)`
+5. Install python using Homebrew `brew install python`
+6. Install geckodriver using Homebrew `brew install geckodriver`
+7. Install required packages by typing the command `python3 -m pip install beautifulsoup4 lxml requests selenium` and click enter to execute it.
+
 ## Usage
 
 (Optional) *Manually add missing megathreads as described in Tip D below*.
 
-1. Run the script by typing the command `python claim_itch.py` and clicking enter.
+1. Run the script by typing the command `python claim_itch.py` and clicking enter. If you are using MacOS Monterey, you may need to run `python3 claim_itch.py` instead
 2. The script will print its progress on the screen.
 3. After it collects game links. It will open firefox and go to itch.io.
 4. Log in, then click enter in the script window.
