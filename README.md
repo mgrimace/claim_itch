@@ -27,8 +27,10 @@ Automate claiming itch.io games. The script scans sources like reddit megathread
 1. Edit sample_login.cfg and enter your information, then remove "sample_" from the filename. Alternatively, create a new login.cfg file using a basic text-editor and save it to the same folder as your script with the following information:
 
 ```
-username ="replace_this_text_with_your_itch.io_username"
-password ="replace_this_text_with_your_itch.io_password"
+[DEFAULT]
+
+username = replace_this_text_with_your_itch.io_username
+password = replace_this_text_with_your_itch.io_password
 ```
 
 ## Usage
@@ -36,10 +38,11 @@ password ="replace_this_text_with_your_itch.io_password"
 (Optional) *Manually add missing megathreads as described in Tip D below*.
 
 1. Run the script by typing the command `python claim_itch.py` and clicking enter. If you are using MacOS Monterey, you may need to run `python3 claim_itch.py` instead
-2. The script will print its progress on the screen.
-3. After it collects game links. It will open firefox and go to itch.io.
-4. Log in, then click enter in the script window.
-5. It'll print its progress as it claims games. Then print a summary of the results.
+2. **Note:** To use the automatic-login function, add the arg `--auto-login`, e.g., `python3 claim_itch.py --auto-login`
+3. The script will print its progress on the screen. Firefox will open and run in the background
+4. After it collects game links. It will open firefox and go to itch.io.
+5. Log in, then click enter in the script window.
+6. It'll print its progress as it claims games. Then print a summary of the results.
 
 ## Tips
 
