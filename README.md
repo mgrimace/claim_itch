@@ -3,7 +3,7 @@ Automate claiming itch.io games. The script scans sources like reddit megathread
 
 ## Known issues, suggestions
 
-Run the script using the following arguments: ```python3 claim_itch.py --auto-login --ignore-errors```. The `ignore` argument will ignore *many* but not all error conditions that the script runs into when trying to claim the games.  
+Run the script using the following arguments: ```python3 claim_itch.py --auto-login --skip-errors --ignore```. The `ignore` and `skip-errors` arguments should ignore *many* but not all error conditions that the script runs into when trying to claim the games.  
 
 * FYI on first run, it will take a *long time* to generate a log of possible free games by scraping the comments of two most recent-megathreads on Reddit and by attempting to scrape the sales on itch.io directly. 
 * Then, it'll try and automatically claim all the free games it thinks it found. You'll see a countdown of the games it has claimed for you, e.g., 120/450 as it works. 
