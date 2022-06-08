@@ -135,3 +135,4 @@ geckodriver.exe
 
 # Private
 login.cfg
+.DS_Store

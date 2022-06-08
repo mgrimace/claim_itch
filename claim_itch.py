@@ -80,8 +80,8 @@ SOURCES = {
     #'https://itch.io/c/537762/already-claimed-will-be-on-sale-again',
     # 'https://old.reddit.com/r/FreeGameFindings/comments/i4ywei/itchio_mega_thread_7/',
     # 'https://old.reddit.com/r/FreeGameFindings/comments/ipp4xn/itchio_mega_thread_8/',
-    'https://old.reddit.com/r/FreeGameFindings/comments/lgi4z7/itchio_mega_thread_9/',
-    'https://old.reddit.com/r/FreeGameFindings/comments/p0ik3q/itchio_mega_thread_10/',
+    # 'https://old.reddit.com/r/FreeGameFindings/comments/lgi4z7/itchio_mega_thread_9/',
+    # 'https://old.reddit.com/r/FreeGameFindings/comments/p0ik3q/itchio_mega_thread_10/',
 }
 
 
@@ -581,8 +581,8 @@ def main():
         if args.auto_login:
             config = configparser.ConfigParser()
             config.read('login.cfg')
-            username = driver.find_element_by_name("username")
-            password = driver.find_element_by_name("password")
+            username = driver.find_element(By.NAME, "username")
+            password = driver.find_element(By.NAME, "password")
 
             username.send_keys(config['DEFAULT']['Username'])
             password.send_keys(config['DEFAULT']['Password'])
