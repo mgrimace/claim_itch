@@ -15,34 +15,6 @@ files and variables:
 - history file:       includes the results of the current run so they can be used in future runs
                       see the HISTORY_KEYS variable
 - log file
-
-todo - functionality:
-- better interface for SOURCES
-- seperate always-free download-only games like https://leafxel.itch.io/hojiya
-- when discovering a game connected to a sale, check out the sale
-- games that redirect to a sale
-- notification of new script version
-- download non-claimable games?
-- login?
-- follow discovered reddit threads?
-
-todo - coding:
-- the steamgifts source is huge, could probably be optimized 'https://itch.io/c/537762/already-claimed-will-be-on-sale-again'
-- handle network errors?
-- debug mode that enables breakpoints
-- log exceptions and urls on error
-- use classes?
-- edge case: non writable config location - would do the work but loss history
-- intersection between SOURCES and discovered collections in has_more?
-- confirm that the keys before & after don't need to be checked in reddit's json
-- proper log
-- proper config
-- claim() return values
-- "selenium.common.exceptions.ElementNotInteractableException: Message: Element <a class="button buy_btn" href=".."> could not be scrolled into view"
-- selenium's performance?
-- less strict parsing / navigation (use .lower) / fuller regex (to work with match and search)
-- pylint
-- a claimable game was recorded as dl_only, was it changed? https://melessthanthree.itch.io/lucah
 '''
 
 import os
@@ -65,7 +37,7 @@ SOURCES = {
     ## Itch sale RSS feeds
     'https://itch.io/games/on-sale.xml',
     'https://itch.io/feed/sales.xml',
-    ## Not updated recently
+    ## Old threads and links, not updated recently
     #'https://itch.io/c/757294/games-to-help-you-stay-inside',
     #'https://itch.io/c/759545/self-isolation-on-a-budget',
     #'https://itch.io/c/840421/paid-gone-free-sales',
@@ -76,12 +48,13 @@ SOURCES = {
     #'https://old.reddit.com/r/FreeGameFindings/comments/gkz20p/itchio_mega_thread_4/',
     #'https://old.reddit.com/r/FreeGameFindings/comments/hbkz5o/itchio_mega_thread_5/',
     #'https://old.reddit.com/r/FreeGameFindings/comments/hqjptv/itchio_mega_thread_6/',
-    ## Disabled because it take a long time
-    #'https://itch.io/c/537762/already-claimed-will-be-on-sale-again',
     # 'https://old.reddit.com/r/FreeGameFindings/comments/i4ywei/itchio_mega_thread_7/',
     # 'https://old.reddit.com/r/FreeGameFindings/comments/ipp4xn/itchio_mega_thread_8/',
     # 'https://old.reddit.com/r/FreeGameFindings/comments/lgi4z7/itchio_mega_thread_9/',
-    # 'https://old.reddit.com/r/FreeGameFindings/comments/p0ik3q/itchio_mega_thread_10/',
+    ## Disabled because it take a long time, re-enable to try around 1635 more  games
+    #'https://itch.io/c/537762/already-claimed-will-be-on-sale-again',
+    ## Current Reddit megathread
+    'https://old.reddit.com/r/FreeGameFindings/comments/p0ik3q/itchio_mega_thread_10/',
 }
 
 
@@ -587,7 +560,7 @@ def main():
             username.send_keys(config['DEFAULT']['Username'])
             password.send_keys(config['DEFAULT']['Password'])
 
-            driver.find_element_by_xpath('//button[text()="Log in"]').click()
+            driver.find_element(By.XPATH, '//button[text()="Log in"]').click()
         else:
             input('A new Firefox window was opened. Log in to itch then click enter to continue')
         cookies = driver.get_cookies()
