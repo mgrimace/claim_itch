@@ -1,14 +1,9 @@
 # claim_itch
-Automate claiming itch.io games. The script scans sources like reddit megathreads for game URLs then claims them. Thank you to u/Iron-Row for creating original project
+Automate claiming free itch.io games. The script scans sources like Reddit megathreads and itch.io sale pages for game URLs, processes them, then claims games any that are free. Thank you to u/Iron-Row for creating the original project
 
-## Known issues, suggestions
+## Tl;dr
 
-Run the script using the following arguments: ```python3 claim_itch.py --auto-login --skip-errors --ignore```. The `ignore` and `skip-errors` arguments should ignore *many* but not all error conditions that the script runs into when trying to claim the games.  
-
-* FYI on first run, it will take a *long time* to generate a log of possible free games by scraping the comments of two most recent-megathreads on Reddit and by attempting to scrape the sales on itch.io directly. 
-* Then, it'll try and automatically claim all the free games it thinks it found. You'll see a countdown of the games it has claimed for you, e.g., 120/450 as it works. 
-* Some games are no longer free and the script will update the log if it runs into these to skip them next time. Some games have other weird stuff going on (e.g., only available to Patreon patrons, etc.) and those generate errors that stop/interrupt the script. 
-* When this happens, and it happens a *lot*, run the script again using the above command to keep going where it left off. If anyone has suggestions how to fix/improve this error-handling, please create a pull request or issue.
+Run the script using the following arguments: ```python3 claim_itch.py --auto-login --skip-errors --ignore```. The `ignore` and `skip-errors` arguments should address *most* if-not all of the error conditions that the script runs into when trying to claim the games. The `auto-login` argument is optional and automatically logs into your itch.io account using credentials entered into login.cfg to enable the script to run unattended.
 
 ## Installation
 
@@ -44,51 +39,78 @@ password = replace_this_text_with_your_itch.io_password
 
 ## Usage
 
-(Optional) *Manually add missing megathreads as described in Tip D below*.
+### (Optional) add or remove sources
 
-1. Run the script by typing the command `python claim_itch.py` and clicking enter. If you are using MacOS Monterey, you may need to run `python3 claim_itch.py` instead
-2. **Note:** To use the automatic-login function, add the arg `--auto-login`, e.g., `python3 claim_itch.py --auto-login`
+-  The claim_itch.py script currently supports reddit threads and itch.io sales/collections
+- Open the script in Notepad++ or your usual script editor and add your URL to the `SOURCES` variable. 
+- **Note:** Additional links are included in the script, but disabled by default due to the length of time it takes to scan and process them. You can review and enable any of these URLs by removing the leading `#`. Conversely, disable any old or stale links by adding `#` to the start of their URL.
+
+### Running the script
+
+1. After downloading or cloning the repo, and navigate to the claim_itch folder.
+2. Run the script using the command `python claim_itch.py`. If you are using MacOS Monterey, you may need to run `python3 claim_itch.py` instead
+   1. **Note:** To use the automatic-login function, add the arg `--auto-login`, e.g., `python3 claim_itch.py --auto-login`
+   2. **Note:** Add the `--skip-errors` and `--ignore` arguments if you don't want the script to stop/interrupt when it encounters errors attempting to process non-standard game pages (e.g., for Patreon patrons only).
+
 3. The script will print its progress on the screen. Firefox will open and run in the background
 4. After it collects game links. It will open firefox and go to itch.io.
-5. Log in, then click enter in the script window.
+5. If you haven't set up auto-login, manually log in now, then click enter in the script window.
 6. It'll print its progress as it claims games. Then print a summary of the results.
 
-## Tips
+### Optional - review the results in the history.json file
 
-**A. How to stop the script while it's running?**
+- After the script has completed, you can manually review how each game URL was processed using the claim_itch.history.json file.
 
-Click Ctrl+C.
+- Games are generally filed as:
 
-**B. How to check if new games where posted?**
+  -     'claimed'           successfully claimed to your account
+        'dl_only'           cannot be claimed, must be downloaded manually
+        'web'               cannot be claimed or downloaded, web-only game
+        'buy'               not for sale
+        'claimed has_more'  success, and indicates that the game is connected to another sale
+        'removed'           game does not exist
+        'always_free'       dl_only game that is always free
+        'error'							the script enountered an error processing that game
 
-Run the command `python claim_itch.py --recheck`.
+## Troubleshooting
 
-**C. How to see non-claimable games that I need to download?**
+#### How to stop the script while it's running?
 
-Run `python claim_itch.py --show-history`
+- Click Ctrl+C.
 
-**D. How to add more places to check for games?**
 
-It supports reddit threads and itch.io sales/collections. Open the script in Notepad and add the link to the `SOURCES` variable. I might make it easier later.
+#### How to check if new games where posted?
 
-**E. Why can't I see captcha images?**
+- Use the argument `--recheck` to recheck if new games were posted in your source URLs. 
 
-I disabled images by default to save bandwidth. Use the `--enable-images` option. Or use the audio captcha by clicking the [headphone icon](https://lh3.googleusercontent.com/K3-D1VX2E3fWD4rHRoqqmogPU-a_SV48lDideMH3bKSGNUE0Z-UMP0R0HGlAL2I=w305-h458). I found audio captcha to be easier.
+- Use the argument `--recheck-groups` to rechack itch.io sales/collections 
 
-**F. It stopped before claiming all games.**
+#### How to see non-claimable games that I need to download?
 
-The code cannot handle all kinds of games on itch. You can use the `--ignore` option to continue claiming games despite an error. If there is any output that could be useful to fix the bug, please send it to me.
+- Use the argument `--show-history`
 
-**G. How to see all the script options?**
 
-Run `python claim_itch.py --help`
+#### Why can't I see captcha images?
 
-**H. What are the side effects of the script?**
+- I disabled images by default to save bandwidth. Use the `--enable-images` argument, or use the audio captcha by clicking the [headphone icon](https://lh3.googleusercontent.com/K3-D1VX2E3fWD4rHRoqqmogPU-a_SV48lDideMH3bKSGNUE0Z-UMP0R0HGlAL2I=w305-h458). 
+
+
+#### It stopped before claiming all games
+
+- The code cannot handle all kinds of games on itch.io, such as games that are for Patreon patrons only, or link to mobile apps. You can use the `--ignore`, and `--skip-errors` options to continue claiming games despite an error. If there is any output that could be useful to fix these bug or handle these pages, please create a pull request or start an issue
+
+#### How to see all the script options?
+
+- Use the argument `--help`
+
+
+#### What files are created by the script?
 
 * The history is stored in a file of your choice or a default file where you run the script (see `python claim_itch.py --help`).
 * A log is stored in a default location where you run the script.
 * Another log is left by geckodriver.
 
-**I. Is the script safe?**
+#### Is the script safe?
 
-It doesn't do anything shady, but it can. The code has access to your computer, files, the internet, and controls a browser where you'll enter your itch password. Anyone can review the code, but that doesn't mean someone will.
+- It doesn't do anything shady, but it can. The code has access to your computer, files, the internet, and controls a browser where you'll enter your itch password. 
+- Your login details are entered in plain-text in login.cfg and are used to log into your itch.io account when running the script. Your login credentials are not saved or shared anywhere else, but anyone who has access to your computer could view that file.

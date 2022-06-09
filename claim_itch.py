@@ -278,7 +278,7 @@ def claim(url, driver):
         'dl_only'           cannot be claimed
         'web'               cannot be claimed or downloaded, web game
         'buy'               not for sale
-        'claimed has_more'  success, and indicaes that the game is connected to another sale
+        'claimed has_more'  success, and indicates that the game is connected to another sale
         'removed'           game does not exist
         'always_free'       dl_only game that is always free
     '''
