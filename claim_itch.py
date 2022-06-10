@@ -28,6 +28,7 @@ import configparser
 from time import sleep, time
 from bs4 import BeautifulSoup
 from selenium import webdriver
+from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 
@@ -396,7 +397,8 @@ def create_driver(enable_images=False, mute=False):
     if mute:
         options.set_preference('media.volume_scale', '0.0')
     if os.path.exists('geckodriver.exe'):
-        driver = webdriver.Firefox(options=options, executable_path='geckodriver.exe')
+        ser = Service('geckodriver.exe')
+        driver = webdriver.Firefox(service=ser, options=options)
     else:
         # geckodriver should be in PATH
         driver = webdriver.Firefox(options=options)
@@ -503,10 +505,13 @@ def get_urls_and_update_history(history, sources, itch_groups):
       itch_groups  itch sales/collections in `sources` that should be marked as checked in `history`
     '''
     for i, source in enumerate(sources):
-        print(f'{i+1}/{len(sources)}')
-        new_urls, new_more = get_urls(source)
-        history['urls'].update(new_urls)
-        history['has_more'].update(new_more)
+        try:
+            print(f'{i+1}/{len(sources)}')
+            new_urls, new_more = get_urls(source)
+            history['urls'].update(new_urls)
+            history['has_more'].update(new_more)
+         except Exception as e:
+            print(f'invalid source: {source}')   
     history['checked_groups'].update(itch_groups)
     history['has_more'].difference_update(history['checked_groups'])
 
