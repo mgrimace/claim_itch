@@ -510,7 +510,7 @@ def get_urls_and_update_history(history, sources, itch_groups):
             new_urls, new_more = get_urls(source)
             history['urls'].update(new_urls)
             history['has_more'].update(new_more)
-         except Exception as e:
+        except Exception as e:
             print(f'invalid source: {source}')   
     history['checked_groups'].update(itch_groups)
     history['has_more'].difference_update(history['checked_groups'])

@@ -26,6 +26,17 @@ Run the script using the following arguments: ```python3 claim_itch.py --auto-lo
 6. Install geckodriver using Homebrew `brew install geckodriver`
 7. Install required packages by typing the command `python3 -m pip install beautifulsoup4 lxml requests selenium` and click enter to execute it.
 
+### Ubuntu Server instructions (i.e., via SSH)
+
+1. connect to your ubuntu server via SSH
+2. Install firefox `sudo apt install firefox`
+3. Install python3 and pip3
+4. Install dependencies `python3 -m pip install beautifulsoup4 lxml requests selenium`
+5. Install gecko driver `wget https://github.com/mozilla/geckodriver/releases/download/v0.31.0/geckodriver-v0.31.0-linux64.tar.gz`, then extract it with `tar -xvzf https://github.com/mozilla/geckodriver/releases/download/v0.31.0/geckodriver-v0.31.0-linux64.tar.gz`, then make it executable `chmod +x geckodriver`, finally move it `sudo mv geckodrvier /usr/local/bin/`
+6. Install xvfb to make Firefox run "headless" `sudo apt-get install xvfb`, then create a fake display using `sudo Xvfb :5 -ac`, and `export DISPLAY=:5`
+7. Run the script using the automatic login argument `--auto-login` after setting it up in using the instructions in the next step below (mandatory, because you won't receive a Firefox pop-up to login).
+8. (Optional) install screen to be able to keep the script running in the background after loggin out of your ssh session. `sudo apt install screen`, then use `screen` to create a new screen, run the script here, then use `control+a`, then `d` to detach the screen and keep it running. You can check back in later by using the command `screen -ls` to see the address of any screens you have running and connect to them with `screen -r [screen number from -ls]`
+
 ### (Optional) Automate itch.io login
 
 1. Edit sample_login.cfg and enter your information, then remove "sample_" from the filename. Alternatively, create a new login.cfg file using a basic text-editor and save it to the same folder as your script with the following information:
